@@ -1,0 +1,7 @@
+# ninja log v5
+2	224	7312527289633498	QuizApp_autogen/timestamp	15eb046256d53f46
+2	224	7312527289633498	QuizApp_autogen/mocs_compilation.cpp	15eb046256d53f46
+2	224	7312527289633498	C:/PARISHKAR/C++/QuizApp/cmake-build-debug/QuizApp_autogen/timestamp	15eb046256d53f46
+2	224	7312527289633498	C:/PARISHKAR/C++/QuizApp/cmake-build-debug/QuizApp_autogen/mocs_compilation.cpp	15eb046256d53f46
+230	1386	7312527301682686	CMakeFiles/QuizApp.dir/main.cpp.obj	f009ab6873b348d9
+225	296	7312527290799320	CMakeFiles/QuizApp.dir/QuizApp_autogen/mocs_compilation.cpp.obj	233a603efc41b9d6

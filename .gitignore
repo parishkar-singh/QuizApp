@@ -1,0 +1,22 @@
+# CMake generated files
+build/
+cmake-build-debug/
+cmake-build-release/
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+install_manifest.txt
+
+# Visual Studio Code specific files
+.vscode/
+
+# Qt specific files
+*.user
+*.pro.user
+*.qbs.user
+*.qmlc
+*.moc
+*.rcc
+*.cmake.user
