@@ -8,11 +8,14 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "C:/Qt/6.6")
 add_subdirectory(src)
+#subdirectories
 
+#add_subdirectory(src/api)
 find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
+        Network
         REQUIRED)
 
 add_executable(QuizApp src/main.cpp)
@@ -20,7 +23,12 @@ target_link_libraries(QuizApp
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        Qt::Network
 )
+#target_link_libraries(QuizApp PRIVATE Server)
+#target_include_directories(QuizApplication PRIVATE Api)
+#target_include_directories(QuizApp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/api")
+target_include_directories(QuizApp PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/api")
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(DEBUG_SUFFIX)

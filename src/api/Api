@@ -1,0 +1,21 @@
+//
+// Created by pasi on 04-03-2024.
+//
+#include <iostream>
+#include "include/Server.h"
+
+APIS::Server::Server(QObject *parent) : QObject(parent), m_server(std::make_unique<QTcpServer>()) {
+    std::cout << "hi there this is called just to check the working of the project from servre";
+    connect(m_server.get(), &QTcpServer::newConnection, this, &Server::newConnection);
+}
+
+APIS::Server::~Server() = default;
+
+void APIS::Server::start() {
+    m_server->listen(QHostAddress::Any, 8080);
+}
+
+void APIS::Server::newConnection() {
+    qDebug() << "new Connection()";
+}
+
