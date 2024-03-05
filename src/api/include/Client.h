@@ -1,11 +1,18 @@
-//
-// Created by pasi on 04-03-2024.
-//
+#pragma once
 
-#ifndef QUIZAPP_CLIENT_H
-#define QUIZAPP_CLIENT_H
+#include "apiGlobal.h"
+#include <QTcpSocket>
 
-namespace APIC{
-    
-};
-#endif //QUIZAPP_CLIENT_H
+namespace APIC {
+    class Client : public QObject {
+    public:
+        explicit Client(QTcpSocket *socket, QObject *parent = nullptr);
+        ~Client() override;
+
+    private slots:
+        void readyRead();
+
+    private:
+        std::unique_ptr<QTcpSocket> m_socket;
+    };
+}

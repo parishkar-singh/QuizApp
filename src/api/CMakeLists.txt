@@ -28,8 +28,7 @@ file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 #        Api
 #        )
 # Create the library target for the API server
-add_library(Api ${SOURCES}
-        include/Client.h)
+add_library(Api ${SOURCES})
 
 # Find the Qt6 packages
 find_package(Qt6HttpServer REQUIRED)

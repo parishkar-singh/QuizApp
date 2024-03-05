@@ -3,9 +3,11 @@
 //
 #include <iostream>
 #include "include/Server.h"
+#include "include/Client.h"
+#include <QDebug>
+//Server Side code //////////////////////////////////////////////
 
 APIS::Server::Server(QObject *parent) : QObject(parent), m_server(std::make_unique<QTcpServer>()) {
-    std::cout << "hi there this is called just to check the working of the project from servre";
     connect(m_server.get(), &QTcpServer::newConnection, this, &Server::newConnection);
 }
 
@@ -13,9 +15,41 @@ APIS::Server::~Server() = default;
 
 void APIS::Server::start() {
     m_server->listen(QHostAddress::Any, 8080);
+    std::cout<<"listening on port 8080\n";
 }
 
 void APIS::Server::newConnection() {
-    qDebug() << "new Connection()";
+    std::cout<<"connection made to client\n";
+    const auto socket = m_server->nextPendingConnection();
+    if(!socket)
+        return;
+    new APIC::Client(socket);
 }
 
+// Client Side code ////////////////////////////////////////////////////
+APIC::Client::Client(QTcpSocket *socket, QObject *parent) : QObject(parent),m_socket(socket) {
+
+    connect(m_socket.get(),&QAbstractSocket::disconnected,this,&QObject::deleteLater);
+    connect(m_socket.get(),&QIODevice::readyRead,this,&Client::readyRead);
+}
+
+void APIC::Client::readyRead(){
+    while(m_socket->canReadLine())
+    {
+        QByteArray requestData = m_socket->readLine().trimmed();
+        if(requestData.isEmpty()) {
+
+            continue;
+        }
+        QString response = "HTTP/1.1 200 OK\r\n"
+                           "Content-Type: text/html\r\n"
+                           "Content-Length: %1\r\n"
+                           "\r\n"
+                           "<html><body><h1>Hello, World!</h1></body></html>";
+        int contentLength = response.toUtf8().size();
+        response = response.arg(contentLength);
+        m_socket->write(response.toUtf8());
+        m_socket->flush();
+    }
+}
+APIC::Client::~Client() = default;
