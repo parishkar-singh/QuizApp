@@ -1,0 +1,36 @@
+#include "include/connector.h"
+#include "include/databaseGlobal.h"
+
+namespace CONN {
+    Connector::Connector(QObject *parent) : QObject(parent) {}
+
+    Connector::~Connector() {
+        closeDatabase();
+    }
+
+    bool Connector::connectToDatabase(const QString &host, int port, const QString &databaseName,
+                                      const QString &userName, const QString &password) {
+        m_database = QSqlDatabase::addDatabase("QPSQL");
+        m_database.setHostName(host);
+        m_database.setPort(port);
+        m_database.setDatabaseName(databaseName);
+        m_database.setUserName(userName);
+        m_database.setPassword(password);
+
+        if (m_database.open()) {
+            qDebug() << "Connected to database!";
+            return true;
+        } else {
+            qCritical() << "Failed to connect to database!";
+            qCritical() << m_database.lastError().text();
+            return false;
+        }
+    }
+
+    void Connector::closeDatabase() {
+        if (m_database.isOpen()) {
+            m_database.close();
+            qDebug() << "Database connection closed.";
+        }
+    }
+}

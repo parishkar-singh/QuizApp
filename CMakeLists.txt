@@ -9,13 +9,18 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_PREFIX_PATH "C:/Qt/6.6")
 add_subdirectory(src)
 #subdirectories
-
+if (MSVC)
+    # Ensure that the /Zc:__cplusplus and /permissive- options are passed to the compiler
+    add_compile_options(/Zc:__cplusplus /permissive-)
+endif()
 #add_subdirectory(src/api)
 find_package(Qt6 COMPONENTS
         Core
         Gui
         Widgets
         Network
+        Sql
+
         REQUIRED)
 
 add_executable(QuizApp src/main.cpp)
@@ -24,11 +29,19 @@ target_link_libraries(QuizApp
         Qt::Gui
         Qt::Widgets
         Qt::Network
+        Qt::Sql
+
 )
-#target_link_libraries(QuizApp PRIVATE Server)
-#target_include_directories(QuizApplication PRIVATE Api)
-#target_include_directories(QuizApp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/api")
 target_include_directories(QuizApp PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/api")
+target_include_directories(QuizApp PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/database")
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+    set_property(TARGET QuizApp PROPERTY CXX_STANDARD 20)
+endif()
+if (POLICY CMP0141)
+    cmake_policy(SET CMP0141 NEW)
+    set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
+endif()
+
 
 if (WIN32 AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
     set(DEBUG_SUFFIX)
