@@ -23,11 +23,13 @@ project(Api)
 # api/CMakeLists.txt
 
 # Set the source files for the API server
-file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 #set(SERVER_SOURCES
 #        Api
 #        )
 # Create the library target for the API server
+
+
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 add_library(Api ${SOURCES})
 
 # Find the Qt6 packages

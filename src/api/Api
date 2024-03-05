@@ -5,8 +5,8 @@
 #include "include/Server.h"
 #include "include/Client.h"
 #include <QDebug>
-//Server Side code //////////////////////////////////////////////
 
+//Server Side code //////////////////////////////////////////////
 APIS::Server::Server(QObject *parent) : QObject(parent), m_server(std::make_unique<QTcpServer>()) {
     connect(m_server.get(), &QTcpServer::newConnection, this, &Server::newConnection);
 }
@@ -38,7 +38,6 @@ void APIC::Client::readyRead(){
     {
         QByteArray requestData = m_socket->readLine().trimmed();
         if(requestData.isEmpty()) {
-
             continue;
         }
         QString response = "HTTP/1.1 200 OK\r\n"
